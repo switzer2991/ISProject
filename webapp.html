@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bigfoot Sightings Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef2f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 60px;
+    }
+
+    .quiz-container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      margin: 10px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h2 id="question">Guess how many Bigfoot sightings there have been in ...</h2>
+    <input type="number" id="guess" placeholder="Enter your guess">
+    <br>
+    <button onclick="checkAnswer()">Submit Guess</button>
+    <div id="result"></div>
+    <button onclick="newQuestion()">Next State</button>
+  </div>
+
+  <script>
+    const sightings = {
+      "Washington": 616,
+      "Oregon": 111,
+      "California": 431,
+      "Idaho": 271,
+      "Nevada":13,
+      "Utah": 69,
+      "Arizona": 83,
+      "Montana":14,
+      "Wyoming": 28,
+      "Colorado":121,
+      "New Mexico": 102,
+      "Texas":69,
+      "Oklahoma":242,
+      "Kansas":102,
+      "Nebraska":8,
+      "South Dakota": 97,
+      "North Dakota":260,
+      "Minnesota":22,
+      "Iowa":40,
+      "Missouri":44,
+      "Arkansas":90,
+      "Louisiana": 13,
+      "Mississippi": 128,
+      "Illinois": 78,
+      "Wisconsin":88,
+      "Michigan":70,
+      "Indiana": 67,
+      "Kentucky":41,
+      "Tennessee": 210,
+      "Alabama": 95,
+      "Ohio": 91,
+      "West Virginia":97,
+      "Georgia":128,
+      "Florida":306,
+      "South Carolina": 17,
+      "North Carolina": 6,
+      "Virginia": 74
+    };
+
+    let currentState = "";
+
+    function getRandomState() {
+      const states = Object.keys(sightings);
+      return states[Math.floor(Math.random() * states.length)];
+    }
+
+    function newQuestion() {
+      currentState = getRandomState();
+      document.getElementById("question").textContent =
+        `Guess how many Bigfoot sightings there have been in ${currentState}?`;
+      document.getElementById("guess").value = "";
+      document.getElementById("result").textContent = "";
+    }
+
+    function checkAnswer() {
+      const guess = parseInt(document.getElementById("guess").value, 10);
+      const actual = sightings[currentState];
+      const result = document.getElementById("result");
+
+      if (isNaN(guess)) {
+        result.textContent = "Please enter a valid number.";
+        result.style.color = "red";
+        return;
+      }
+
+      const diff = Math.abs(guess - actual);
+      if (diff <= 10) {
+        result.textContent = `🎯 Great guess! The actual number in ${currentState} is ${actual}.`;
+        result.style.color = "green";
+      } else {
+        result.textContent = `❌ Not quite. The actual number in ${currentState} is ${actual}.`;
+        result.style.color = "orange";
+      }
+    }
+
+    // Initialize with the first question
+    newQuestion();
+  </script>
+  <a href="scratch.html">Back to Previous Page</a>
+</body>
+</html>
